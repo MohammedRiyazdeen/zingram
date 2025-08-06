@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from profiles.models import Profile
 
+
 # profiles/views.py
 
 
@@ -26,7 +27,7 @@ def edit_profile(request):
     return render(request, 'profiles/edit_profile.html', {'form': form})
 
 
-
+from posts.models import Posts  # make sure this import is added
 
 def profile_view(request, username):
     user = get_object_or_404(User, username=username)
@@ -34,9 +35,9 @@ def profile_view(request, username):
 
     is_following = False
     if request.user.is_authenticated:
-        is_following = profile.followers.filter(id=request.user.id).exists() 
+        is_following = profile.followers.filter(id=request.user.id).exists()
 
-                       #or alternavtive way below
+                               #or alternavtive way below
 
         #is_following = False
         #if request.user.is_authenticated and request.user in profile.followers.all():
@@ -47,14 +48,19 @@ def profile_view(request, username):
     followers_count = profile.followers.count()
     following_count = user.following.count()
 
+    # 🆕 Get posts by this user
+    posts = Posts.objects.filter(author=user).order_by('-created_at')
+
     context = {
         'profile_user': user,
         'profile': profile,
         'is_following': is_following,
         'followers_count': followers_count,
         'following_count': following_count,
+        'posts': posts,  # 🆕 Add this to context
     }
     return render(request, 'profiles/profile.html', context)
+
 
 
 

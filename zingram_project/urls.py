@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),  # ✅ default route
     path('', include('posts.urls')),
-    path('u/', include('profiles.urls')),  # ✅ safe and clear
+    path('', include('profiles.urls')),  # ✅ safe and clear
 
 ]
 
