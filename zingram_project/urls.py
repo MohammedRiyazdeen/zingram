@@ -23,8 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),  # ✅ default route
-    path('', include('profiles.urls')),
     path('', include('posts.urls')),
+    path('u/', include('profiles.urls')),  # ✅ safe and clear
 
 ]
 

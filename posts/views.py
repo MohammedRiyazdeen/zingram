@@ -14,3 +14,10 @@ def create_post_view(request):
     else:
         form = PostForm()
     return render(request, 'posts/create_post.html', {'form': form})
+
+
+from .models import Posts
+
+def feed_view(request):
+    posts = Posts.objects.all().order_by('-created_at')  # newest first
+    return render(request, 'posts/feed.html', {'posts': posts})
